@@ -7,8 +7,8 @@ const OfficeSelectionPage = () => {
   const navigate  = useNavigate();
   const [offices, setOffices] = useState([]);
   const rooms = [
-    { id: 1, name: 'Flex Office Noven 1', description: 'Grande salle de réunion.' },
-    { id: 2, name: 'Flex Office Noven 2', description: 'Petite salle de réunion.' },
+    { id: 1, name: 'Flex Office Noven 1', description: 'Grande salle de 12 places.' },
+    { id: 2, name: 'Flex Office Noven 2', description: 'Petite salle de 8 places.' },
     // Ajoutez plus de salles si nécessaire
   ];
   const room = rooms.find(r => r.id === parseInt(roomId));
