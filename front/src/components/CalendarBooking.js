@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import Calendar from 'react-calendar';
 import 'react-calendar/dist/Calendar.css';
@@ -24,7 +26,6 @@ const CalendarBooking = ({ rooms, offices }) => {
   };
 
   const handleBooking = (booking) => {
-    // Gérer la logique de réservation
     console.log('Réservation effectuée:', booking);
   };
 
@@ -63,7 +64,6 @@ const CalendarBooking = ({ rooms, offices }) => {
                 >
                   <h3 className="font-bold">{office.name}</h3>
                   <p>{office.description}</p>
-                  <img src={office.image} alt={office.name} className="mt-2" />
                 </div>
               ))}
           </div>
