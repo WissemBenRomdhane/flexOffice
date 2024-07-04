@@ -43,7 +43,7 @@ const BookingPage = () => {
         <p>{office.description}</p>
         <img src={office.image} alt={office.name} className="mt-2" />
       </div>
-      <BookingForm onBook={handleBooking} />
+      <BookingForm onBook={handleBooking} roomId={room.id} officeId={office.id} />
     </div>
   );
 };
