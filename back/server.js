@@ -7,7 +7,9 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:3000', // Remplacez par l'URL de votre frontend Next.js
+}));
 app.use(express.json());
 
 // Connexion à MongoDB
