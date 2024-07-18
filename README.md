@@ -26,10 +26,11 @@ L'application de réservation de bureaux permet aux utilisateurs de réserver de
 - **Mongoose** : Bibliothèque ODM pour MongoDB et Node.js.
 
 ## Fonctionnalités
-- **Affichage des salles et bureaux disponibles** : La page principale affiche les salles disponibles, et les bureaux associés sont affichés lorsqu'une salle est sélectionnée.
-- **Réservation de bureaux** : Les utilisateurs peuvent réserver des bureaux en sélectionnant une date, une salle, un bureau et un créneau horaire (journée complète, matin ou après-midi).*
+- **Authentification** : Pour ne permettre l'accès que aix personnes autorisées (Maquette 1)
+- **Sélection de la salle et de la date** : Sélection de la salle via une liste déroulante / Choix de la date par saisie ou sélection dans un calendrier (Maquette 2)
+- **Affichage des salles et bureaux disponibles** : Après sélection de la salle et de la date, les bureaus de la salle sont affichés. Les bureaux verts sont disponibles pour la journée, les bureaux rouges sont occupés pour le journée. Les bureaux vert/rouge sont occupés soit pour la matinée soit l'après-midi. Cette information est notée sur le bureau disponible. Sur un bureau occupé une bulle affiche le nom de la personne qui a réservé (maquette 3).
+- **Réservation de bureaux** : L'utilisateur peut réserver un bureau en double cliquant sur un bureau un bureau. Il spécifie son nom, préneau et créneau horaire (journée complète, matin ou après-midi). Si le bureau est déjà occupé à la journée, il ne peut pas cliqué dessus. S'il est déjà occupé pour une matinée/après-midi il ne pourra pas choisir matinée ou après-midi dans les options selon le cas. * Il annule ou envoie la demande. (Maquette 4)
 - **Ajout de salles et de bureaux** : Les administrateurs peuvent ajouter de nouvelles salles et de nouveaux bureaux via des formulaires dédiés.
-- **Gestion des réservations** : Les bureaux réservés sont affichés en gris pour indiquer qu'ils ne sont pas disponibles.
 - **Formulaire de réservation** : Un formulaire permet de saisir les détails de la réservation (nom, date, créneau horaire).
 - **Communication Backend-Frontend** : Utilisation d'Axios pour envoyer des requêtes au serveur backend pour créer et récupérer des réservations.
 
