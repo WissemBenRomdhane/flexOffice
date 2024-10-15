@@ -1,20 +1,29 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from "react";
+import axios from "axios";
 
 const BookingForm = ({ onBook, roomId, officeId, selectedDate }) => {
-  const [name, setName] = useState('');
-  const [timeSlot, setTimeSlot] = useState('fullDay');
+  const [name, setName] = useState("");
+  const [timeSlot, setTimeSlot] = useState("fullDay");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const booking = { name, date: selectedDate.toISOString().split('T')[0], timeSlot, roomId, officeId };
+    const booking = {
+      name,
+      date: selectedDate.toISOString().split("T")[0],
+      timeSlot,
+      roomId,
+      officeId,
+    };
     try {
-      const response = await axios.post('http://localhost:5000/api/reservations', booking);
+      const response = await axios.post(
+        "http://localhost:5000/api/reservations",
+        booking
+      );
       onBook(response.data);
     } catch (error) {
-      console.error('Error booking the office:', error);
+      console.error("Error booking the office:", error);
     }
   };
 
@@ -34,7 +43,7 @@ const BookingForm = ({ onBook, roomId, officeId, selectedDate }) => {
         <label className="block text-sm font-bold mb-2">Date</label>
         <input
           type="text"
-          value={selectedDate.toISOString().split('T')[0]}
+          value={selectedDate.toISOString().split("T")[0]}
           className="w-full p-2 border rounded"
           readOnly
         />
