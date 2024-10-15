@@ -1,54 +1,62 @@
 'use client'
 
 import '../styles/globals.css'
-import Sidebar from '../components/Sidebar'
-import React, { useEffect, useState } from 'react'
+import Navbar from '../components/Navbar'
+import React, { useEffect } from 'react'
 import { usePathname, useRouter } from 'next/navigation'
+import Image from 'next/image'
+import logo from './../../public/images/logo-neosoft-white.svg'
+import { Provider, useSelector } from 'react-redux'
+import store from '@/store/store'
 
-export default function RootLayout ({ children }) {
-  const [isOpen, setIsOpen] = useState(true) // Menu ouvert par défaut
-  const [isAuthenticated, setAuthenticated] = useState(false)
-  const router = useRouter()
-  const pathname = usePathname()
+function LayoutComponent({ children }) {
+  const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
+  const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
-    if (!token && pathname !== '/login' && pathname !== '/register') {
-      router.push('/login')
-    } else if (token) {
-      setAuthenticated(true)
+    if (!isLoggedIn && pathname !== '/login' && pathname !== '/register') {
+      router.push('/login');
     }
-  }, [router, pathname])
-
-  const toggleSidebar = () => {
-    setIsOpen(!isOpen)
-  }
+  }, [isLoggedIn, router, pathname]);
 
   return (
-    <html lang='en'>
-      <head>
-        <title>Réservation Flex Office</title>
-        <meta
-          name='description'
-          content="Réserver des espaces de bureaux dans l'entreprise"
-        />
-      </head>
-      <body>
-        <div className='flex'>
-          {isAuthenticated ||
-          pathname === '/login' ||
-          pathname === '/register' ? (
-            <>
-              {pathname !== '/login' && pathname !== '/register' && (
-                <Sidebar isOpen={isOpen} toggleSidebar={toggleSidebar} />
-              )}
-              <div className={`flex-1 transition-all duration-300 ${isOpen ? 'ml-64' : 'ml-16'}`}>
-                {children}
-              </div>
-            </>
-          ) : null}
-        </div>
-      </body>
-    </html>
-  )
+    <div className='bg-blue-950'>
+      {isLoggedIn && (
+        <>
+          <div>
+            <Image
+              className='p-1 mt-1 h-fit'
+              priority
+              src={logo}
+              alt='Neosoft'
+            />
+            <Navbar />
+          </div>
+        </>
+      )}
+      <div className='flex-1 h-full'>{children}</div>
+    </div>
+  );
+}
+
+export default function RootLayout({ children }) {
+  return (
+    <Provider store={store}>
+      <html lang='en'>
+        <head>
+          <title>Réservation Flex Office</title>
+          <meta
+            name='description'
+            content="Réserver des espaces de bureaux dans l'entreprise"
+          />
+        </head>
+        <body>
+          <LayoutComponent>
+            {children}
+          </LayoutComponent>
+        </body>
+      </html>
+    </Provider>
+  );
 }

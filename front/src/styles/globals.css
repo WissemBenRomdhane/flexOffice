@@ -2,21 +2,21 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+/* :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
-}
+} */
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
   }
-}
+} */
 
-body {
+/* body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,
@@ -24,16 +24,13 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
-}
+} */
 
-@layer utilities {
+/* @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
-}
-.container {
-  /* display: flex; */
-}
+} */
 .content {
   margin-left: 220px; /* width of the sidebar + some padding */
   padding: 20px;
@@ -45,10 +42,10 @@ body {
   padding: 20px;
   transition: margin-left 0.3s ease;
 }
-.contentShift {
+/* .contentShift {
   margin-left: 220px;
   width: calc(100% - 220px);
-}
+} */
 
 @media (max-width: 768px) {
   .content {
@@ -56,7 +53,7 @@ body {
     width: 100%;
   }
 
-  .sidebar {
+  /* .sidebar {
     width: 100%;
     left: -100%;
   }
@@ -68,18 +65,18 @@ body {
   .contentShift {
     margin-left: 0;
     width: 100%;
-  }
+  } */
   .page-content {
     margin-left: 0;
     width: 100%;
   }
 
-  .sidebar {
+  /* .sidebar {
     width: 100%;
     left: -100%;
   }
 
   .sidebar.open {
     left: 0;
-  }
+  } */
 }
