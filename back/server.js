@@ -22,15 +22,17 @@ mongoose.connect(process.env.MONGODB_URI)
   });
 
 // Routes
+const authRoutes = require('./routes/auth');
+const adminRoutes = require('./routes/users');
 const reservationsRouter = require('./routes/reservations');
 const roomsRouter = require('./routes/rooms');
 const officesRouter = require('./routes/offices');
-const authRoutes = require('./routes/auth');
 
+app.use('/api/auth', authRoutes);
+app.use('/api/users', adminRoutes);
 app.use('/api/reservations', reservationsRouter);
 app.use('/api/rooms', roomsRouter);
 app.use('/api/offices', officesRouter);
-app.use('/api/auth', authRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on port: ${port}`);
