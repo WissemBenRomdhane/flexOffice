@@ -8,7 +8,6 @@ import {
   fetchRooms,
   updateRoom,
 } from "@/actions/roomActions";
-import { useRouter } from "next/navigation";
 
 const AddRoom = () => {
   const [name, setName] = useState("");
@@ -18,17 +17,10 @@ const AddRoom = () => {
   const dispatch = useDispatch();
   const rooms = useSelector((state) => state.room.rooms);
   const isLoggedIn = useSelector((state) => state.user.isLoggedIn);
-  const router = useRouter();
 
   useEffect(() => {
     dispatch(fetchRooms()); // Récupère les salles au chargement
   }, [dispatch]);
-
-  useEffect(() => {
-    if (!isLoggedIn) {
-      router.push("/login"); // Rediriger si pas authentifié
-    }
-  }, [isLoggedIn, router]);
 
   const resetForm = () => {
     setName("");
@@ -65,14 +57,14 @@ const AddRoom = () => {
     }
   };
 
-  return isLoggedIn ? (
+  return (
     <div>
       <form
         onSubmit={handleSubmit}
         className="p-4 border rounded shadow-md mb-4"
       >
         <div className="mb-4">
-          <label className="black text-sm font-bold mb-2">
+          <label className="text-white text-sm font-bold mb-2">
             Nom de la salle
           </label>
           <input
@@ -84,7 +76,9 @@ const AddRoom = () => {
           />
         </div>
         <div className="mb-4">
-          <label className="black text-sm font-bold mb-2">Description</label>
+          <label className="text-white text-sm font-bold mb-2">
+            Description
+          </label>
           <input
             type="text"
             value={description}
@@ -108,7 +102,7 @@ const AddRoom = () => {
         {rooms.map((room) => (
           <li
             key={room._id}
-            className="p-2 border rounded mb-2 flex justify-between"
+            className="text-white p-2 border rounded mb-2 flex justify-between"
           >
             <span>{room.name}</span>
             <div>
@@ -129,7 +123,7 @@ const AddRoom = () => {
         ))}
       </ul>
     </div>
-  ) : null;
+  );
 };
 
 export default AddRoom;

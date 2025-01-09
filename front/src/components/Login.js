@@ -72,7 +72,7 @@ const Login = () => {
             >
               Login
             </button>
-            <div className="mt-4 text-center">
+            {/* <div className="mt-4 text-center">
               <button
                 type="button"
                 onClick={navigateToRegister}
@@ -80,7 +80,7 @@ const Login = () => {
               >
                 Don't have an account? Register
               </button>
-            </div>
+            </div> */}
           </form>
         </div>
       </div>

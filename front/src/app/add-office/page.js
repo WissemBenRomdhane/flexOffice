@@ -6,7 +6,7 @@ import AddOffice from '../../components/AddOffice';
 const AddOfficePage = () => {
   return (
     <div className="page-content">
-      <h1>Ajouter Bureau</h1>
+      <h1 className='text-white text-2xl font-bold mb-4'>Ajouter Bureau</h1>
       <AddOffice />
     </div>
   );

@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { FaRegSquare } from "react-icons/fa"; // Importer une icône de bureau
-import BookingForm from "./BookingForm";
+import BookingForm from "./Forms/BookingForm";
 import { format, parseISO } from "date-fns";
 import { fr, enUS } from "date-fns/locale";
 import useTranslation from "next-translate/useTranslation";
@@ -35,7 +35,7 @@ const CalendarBooking = ({ rooms, offices }) => {
   };
 
   const locale = lang === "fr" ? fr : enUS;
-  console.log("offices", rooms);
+ 
   return (
     <div className="p-4 border rounded shadow-md mb-4">
       <h1 className="text-2xl font-bold mb-4">Réserver un bureau</h1>

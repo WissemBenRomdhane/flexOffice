@@ -1,48 +1,52 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { addOffice } from "@/actions/officeActions";
+import { fetchRooms } from "@/actions/roomActions";
 
 const AddOffice = () => {
+  const dispatch = useDispatch();
+  const rooms = useSelector((state) => state.room.rooms);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
+  const [equipment, setEquipment] = useState([]);
   const [roomId, setRoomId] = useState("");
-  const [rooms, setRooms] = useState([]);
 
   useEffect(() => {
-    const fetchRooms = async () => {
-      try {
-        const response = await axios.get("http://localhost:5000/api/rooms");
-        setRooms(response.data);
-      } catch (error) {
-        console.error("Erreur lors de la récupération des salles:", error);
-      }
-    };
+    dispatch(fetchRooms()); // Récupère les salles au chargement
+  }, [dispatch]);
 
-    fetchRooms();
-  }, []);
+  const resetForm = () => {
+    setName("");
+    setDescription("");
+    setRoomId("");
+    setEquipment([]);
+  };
+
+  const handleEquipmentChange = (e) => {
+    const value = e.target.value;
+    setEquipment((prev) =>
+      prev.includes(value)
+        ? prev.filter((item) => item !== value)
+        : [...prev, value]
+    );
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const newOffice = { name, description, roomId };
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/offices",
-        newOffice
-      );
-      console.log("Bureau ajouté:", response.data);
-      setName("");
-      setDescription("");
-      setRoomId("");
-    } catch (error) {
-      console.error("Error lors de l'ajout du bureau:", error);
-    }
+    const newOffice = { name, description, equipment, roomId };
+
+    dispatch(addOffice(newOffice));
+    resetForm();
   };
 
   return (
     <form onSubmit={handleSubmit} className="p-4 border rounded shadow-md mb-4">
       <div className="mb-4">
-        <label className="block text-sm font-bold mb-2">Nom du bureau</label>
+        <label className="text-white block text-sm font-bold mb-2">
+          Nom du bureau
+        </label>
         <input
           type="text"
           value={name}
@@ -52,7 +56,9 @@ const AddOffice = () => {
         />
       </div>
       <div className="mb-4">
-        <label className="block text-sm font-bold mb-2">Description</label>
+        <label className="text-white block text-sm font-bold mb-2">
+          Description
+        </label>
         <input
           type="text"
           value={description}
@@ -62,7 +68,41 @@ const AddOffice = () => {
         />
       </div>
       <div className="mb-4">
-        <label className="block text-sm font-bold mb-2">Salle</label>
+        <label className="text-white block text-sm font-bold mb-2">
+          Équipement
+        </label>
+        <div className="flex gap-4">
+          <label className="text-white block text-sm mb-2">
+            <input
+              type="checkbox"
+              value="monitor"
+              checked={equipment.includes("monitor")}
+              onChange={handleEquipmentChange}
+            />
+            Écran
+          </label>
+          <label className="text-white block text-sm mb-2">
+            <input
+              type="checkbox"
+              value="keyboard"
+              checked={equipment.includes("keyboard")}
+              onChange={handleEquipmentChange}
+            />
+            Clavier
+          </label>
+          <label className="text-white block text-sm mb-2">
+            <input
+              type="checkbox"
+              value="mouse"
+              checked={equipment.includes("mouse")}
+              onChange={handleEquipmentChange}
+            />
+            Souris
+          </label>
+        </div>
+      </div>
+      <div className="mb-4">
+        <label className="text-white block text-sm font-bold mb-2">Salle</label>
         <select
           value={roomId}
           onChange={(e) => setRoomId(e.target.value)}

@@ -3,38 +3,24 @@
 import React, { useEffect, useState } from 'react';
 import CalendarBooking from '../../components/CalendarBooking';
 import axios from 'axios';
+import Reservation from '@/components/Reservation';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchRooms } from '@/actions/roomActions';
+import { fetchOffices } from '@/actions/officeActions';
 
 const ReservationPage = () => {
-  const [rooms, setRooms] = useState([]);
-  const [offices, setOffices] = useState([]);
-
-  const fetchRooms = async () => {
-    try {
-      const response = await axios.get('http://localhost:5000/api/rooms');
-      setRooms(response.data);
-    } catch (error) {
-      console.error('Erreur lors de la récupération des salles:', error);
-    }
-  };
-
-  const fetchOffices = async () => {
-    try {
-      const response = await axios.get('http://localhost:5000/api/offices');
-      setOffices(response.data);
-    } catch (error) {
-      console.error('Erreur lors de la récupération des bureaux:', error);
-    }
-  };
+  const dispatch = useDispatch();
+  const rooms = useSelector((state) => state.room.rooms);
 
   useEffect(() => {
-    fetchRooms();
-    fetchOffices();
-  }, []);
+    dispatch(fetchRooms()); // Récupère les salles au chargement
+  }, [dispatch]);
 
   return (
     <div className="page-content">
-      <h1>Réservation</h1>
-      <CalendarBooking rooms={rooms} offices={offices} />
+      <h1 className="text-white text-2xl font-bold mb-4">Réservation</h1>
+      {/* <CalendarBooking rooms={rooms} offices={offices} /> */}
+      <Reservation rooms={rooms} />
     </div>
   );
 };

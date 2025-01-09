@@ -6,7 +6,7 @@ import AddRoom from '../../components/AddRoom';
 const AddRoomPage = () => {
   return (
     <div className="page-content">
-      <h1>Ajouter Salle</h1>
+      <h1 className='text-white text-2xl font-bold mb-4'>Ajouter Salle</h1>
       <AddRoom />
     </div>
   );
