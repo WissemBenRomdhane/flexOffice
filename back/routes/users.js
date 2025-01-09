@@ -1,36 +1,49 @@
 const express = require("express");
 const router = express.Router();
 const User = require("../models/User");
-
-const isAdmin = (req, res, next) => {
-  if (req.user.role !== "Admin") {
-    return res.status(403).json({ message: "Accès interdit" });
-  }
-  next();
-};
+const { protect } = require("../middleware/authMiddleware");
+const { isAdmin } = require("../middleware/adminMiddleware");
+const generateToken = require("../middleware/authUtils");
 
 // Récupérer tous les utilisateurs
-router.get("/", isAdmin, async (req, res) => {
+router.get("/", protect, isAdmin, async (req, res) => {
   try {
     const users = await User.find();
+
     res.json(users);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 });
 
+//Ajouter un utilisateur
+router.post("/", protect, isAdmin, async (req, res) => {
+  const { email, username, password, role } = req.body;
+  try {
+    const user = await User.create({ email, username, password, role });
+    res.status(201).json({
+      _id: user._id,
+      email: user.email,
+      username: user.username,
+      role: user.role,
+      token: generateToken(user._id),
+    });
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
+});
+
 //Modifier un utilisateur
-router.put("/:id", isAdmin, async (req, res) => {
+router.put("/:id", protect, isAdmin, async (req, res) => {
   const { id } = req.params;
-  const { username, email, role } = req.body;
+  const { username, email, password, role } = req.body;
 
   try {
     const updateUser = await User.findByIdAndUpdate(
       id,
-      { username, email, role },
-      { new: true }
+      { username, email, password, role },
+      { new: true, runValidators: true }
     );
-    res.json(updateUser);
     if (!updateUser) {
       return res.status(404).json({ message: "Utilisateur non trouvée" });
     }
@@ -41,7 +54,7 @@ router.put("/:id", isAdmin, async (req, res) => {
 });
 
 // Supprimer un utilisateur
-router.delete("/:id", isAdmin, async (req, res) => {
+router.delete("/:id", protect, isAdmin, async (req, res) => {
   const { id } = req.params;
   try {
     const deleteUser = await User.findByIdAndDelete(id);

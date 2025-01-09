@@ -4,8 +4,8 @@ const Office = require('../models/Office');
 
 // Ajouter un bureau
 router.post('/', async (req, res) => {
-    const { name, description, roomId, isBooked } = req.body;
-    const office = new Office({ name, description, roomId, isBooked });
+    const { name, description, equipment, roomId, isBooked } = req.body;
+    const office = new Office({ name, description, equipment, roomId, isBooked });
 
     try {
         await office.save();
@@ -15,10 +15,11 @@ router.post('/', async (req, res) => {
     }
 });
 
-// Obtenir tous les bureaux
-router.get('/', async (req, res) => {
+// Obtenir les bureaux d'une salle spécifique
+router.get('/:roomId', async (req, res) => {
+    const { roomId } = req.params; // Extraire l'ID de la salle depuis les paramètres
     try {
-        const offices = await Office.find().populate(roomId);
+        const offices = await Office.find({ roomId }); // Filtrer les bureaux par roomId
         res.json(offices);
     } catch (error) {
         res.status(500).json({ message: error.message });
